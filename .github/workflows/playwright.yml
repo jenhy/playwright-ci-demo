@@ -1,0 +1,48 @@
+name: Playwright Tests
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    
+    # 核心：并行运行策略
+    strategy:
+      fail-fast: false
+      matrix:
+        # 分成 3 个分片（Shards）并行运行
+        shard: [1, 2, 3]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Ensure browsers are installed
+      run: python -m playwright install --with-deps chromium
+
+    - name: Run Playwright tests with Sharding
+      # --shard参数：将测试集拆分，本任务跑第 N 个分片
+      # run: pytest --browser chromium --shard=${{ matrix.shard }}/3
+      # -n auto 表示根据 CPU 核心数自动开启多个进程运行测试
+      run: pytest -n auto --browser chromium
+
+    - name: Upload Blob Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: all-blob-reports-${{ matrix.shard }}
+        path: blob-report
+        retention-days: 1

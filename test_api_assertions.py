@@ -11,7 +11,6 @@ def api_context(playwright: Playwright) -> Generator[APIRequestContext, None, No
     context.dispose()
 
 # --- 测试用例 ---
-
 def test_get_post_with_assertions(api_context: APIRequestContext):
     """使用 expect 断言 API 响应"""
     response = api_context.get("/posts/1")

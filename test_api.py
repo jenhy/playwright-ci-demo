@@ -3,7 +3,6 @@ from typing import Generator
 from playwright.sync_api import Playwright, APIRequestContext
 
 # --- 第一部分：定义 Fixture ---
-
 @pytest.fixture(scope="session")
 def api_request_context(playwright: Playwright) -> Generator[APIRequestContext, None, None]:
     """
@@ -28,7 +27,6 @@ def api_request_context(playwright: Playwright) -> Generator[APIRequestContext, 
 
 
 # --- 第二部分：编写测试用例 ---
-
 def test_get_user_and_validate(api_request_context: APIRequestContext):
     """测试 GET 请求：获取 ID 为 1 的帖子"""
     response = api_request_context.get("/posts/1")
