@@ -37,6 +37,9 @@ jobs:
       # --shard参数：将测试集拆分，本任务跑第 N 个分片
       # run: pytest --browser chromium --shard=${{ matrix.shard }}/3
       # -n auto 表示根据 CPU 核心数自动开启多个进程运行测试
+      env:
+        email: ${{ secrets.EMAIL }}
+        passwd: ${{ secrets.PASSWD }}
       run: pytest -n auto --browser chromium
 
     - name: Upload Blob Report
