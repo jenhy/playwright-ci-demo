@@ -4,7 +4,7 @@ def run():
     with sync_playwright() as p:
         # 1. 启动时尝试隐藏自动化特征
         browser = p.chromium.launch(
-            headless=False, 
+            headless=True, 
             slow_mo=500,
             args=["--disable-blink-features=AutomationControlled"] # 尝试规避指纹检测
         )
