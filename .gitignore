@@ -1,3 +1,6 @@
 __pycache__/
+.playwright-cli/
+.playwright/
 *.pyc
 requirements/pypackage-*.txt
+.env
